@@ -6,9 +6,9 @@ class OandaApi:
     def __init__(self):
         self.session = requests.Session()
         self.session.headers.update({
-        "Authorization" : f"Bearer {defs.API_KEY}",
-        "Content-Type" : "application/json"
-    })
+            "Authorization": f"Bearer {defs.API_KEY}",
+            "Content-Type": "application/json"
+        })
 
     def make_request(self, url, verb='get', code=200, params=None, data=None, headers=None):
         full_url = f"{defs.OANDA_URL}/{url}"
@@ -43,3 +43,10 @@ class OandaApi:
 
     def get_account_instruments(self):
         return self.get_account_ep("instruments", "instruments")
+
+
+
+
+
+
+
