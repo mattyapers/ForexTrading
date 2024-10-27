@@ -13,11 +13,11 @@ class CandlePlot:
         self.add_timestr()
         self.fig = go.Figure()
         self.fig.add_trace(go.Candlestick(
-            x=df_plot['sTime'],
-            open=df_plot.mid_o,
-            high=df_plot.mid_h,
-            low=df_plot.mid_l,
-            close=df_plot.mid_c,
+            x=self.df_plot['sTime'],
+            open=self.df_plot.mid_o,
+            high=self.df_plot.mid_h,
+            low=self.df_plot.mid_l,
+            close=self.df_plot.mid_c,
             line=dict(width=1), opacity=1,
             increasing_fillcolor="#24A06B",
             decreasing_fillcolor="#CC2E3C",
