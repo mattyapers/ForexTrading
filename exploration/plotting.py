@@ -1,0 +1,47 @@
+import datetime as dt
+import plotly.graph_objects as go
+
+class CandlePlot:
+
+    def __init__(self, df):
+        self.df_plot = df.copy()
+
+    def add_timestr(self):
+        self.df['sTime'] = [dt.datetime.strftime(x, "s%y-%m-%d %H:%M") for x in df.time]
+
+    def create_candle_fig(self):
+        self.add_timestr()
+        self.fig = go.Figure()
+        self.fig.add_trace(go.Candlestick(
+            x=df_plot['sTime'],
+            open=df_plot.mid_o,
+            high=df_plot.mid_h,
+            low=df_plot.mid_l,
+            close=df_plot.mid_c,
+            line=dict(width=1), opacity=1,
+            increasing_fillcolor="#24A06B",
+            decreasing_fillcolor="#CC2E3C",
+            increasing_line_color="#2EC886",
+            decreasing_line_color="#FF3A4C"
+        ))
+
+        self.fig.update_yaxes(
+            gridcolor="#1f292f"
+        )
+
+        self.fig.update_xaxes(
+            gridcolor="#1f292f",
+            rangeslider=dict(visible=False),
+            nticks=5
+        )
+
+        self.fig.update_layout(
+            width=900,
+            height=400,
+            margin=dict(l=10, r=10, b=10, t=10),
+            paper_bgcolor="#2c303c",
+            plot_bgcolor="#2c303c",
+            font=dict(size=8, color="#e1e1e1")
+        )
+
+        fig.show()
