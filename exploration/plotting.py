@@ -5,9 +5,10 @@ class CandlePlot:
 
     def __init__(self, df):
         self.df_plot = df.copy()
+        self.create_candle_fig()
 
     def add_timestr(self):
-        self.df['sTime'] = [dt.datetime.strftime(x, "s%y-%m-%d %H:%M") for x in df.time]
+        self.df['sTime'] = [dt.datetime.strftime(x, "s%y-%m-%d %H:%M") for x in self.df.time]
 
     def create_candle_fig(self):
         self.add_timestr()
@@ -28,12 +29,14 @@ class CandlePlot:
     def update_layout(self, width, height, nticks):
         self.fig.update_yaxes(
         gridcolor="#1f292f"
-    )
+        )
+
         self.fig.update_xaxes(
         gridcolor="#1f292f",
         rangeslider=dict(visible=False),
         nticks=nticks
-    )
+        )
+
         self.fig.update_layout(
         width=width,
         height=height,
@@ -41,7 +44,7 @@ class CandlePlot:
         paper_bgcolor="#2c303c",
         plot_bgcolor="#2c303c",
         font=dict(size=8, color="#e1e1e1")
-    )
+        )
         
     def show_plot(self, width=900, height=400, nticks=5):
         self.update_layout(width, height, nticks)
