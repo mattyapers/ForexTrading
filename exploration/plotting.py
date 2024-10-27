@@ -25,23 +25,24 @@ class CandlePlot:
             decreasing_line_color="#FF3A4C"
         ))
 
+    def update_layout(self, width, height, nticks):
         self.fig.update_yaxes(
-            gridcolor="#1f292f"
-        )
-
+        gridcolor="#1f292f"
+    )
         self.fig.update_xaxes(
-            gridcolor="#1f292f",
-            rangeslider=dict(visible=False),
-            nticks=5
-        )
-
+        gridcolor="#1f292f",
+        rangeslider=dict(visible=False),
+        nticks=nticks
+    )
         self.fig.update_layout(
-            width=900,
-            height=400,
-            margin=dict(l=10, r=10, b=10, t=10),
-            paper_bgcolor="#2c303c",
-            plot_bgcolor="#2c303c",
-            font=dict(size=8, color="#e1e1e1")
-        )
-
-        fig.show()
+        width=width,
+        height=height,
+        margin=dict(l=10, r=10, b=10, t=10),
+        paper_bgcolor="#2c303c",
+        plot_bgcolor="#2c303c",
+        font=dict(size=8, color="#e1e1e1")
+    )
+        
+    def show_plot(self, width=900, height=400, nticks=5):
+        self.update_layout(width, height, nticks)
+        self.fig.show()
