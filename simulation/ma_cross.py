@@ -1,6 +1,30 @@
 import pandas as pd
 from infrastructure.instrument_collection import instrumentCollection as ic
 
+
+class MAResult:
+    def __init__(self, df_trades, pairname, ma_l,ma_s):
+        self.pairname = pairname
+        self.df_trades = df_trades
+        self.ma_l = ma_l
+        self.ma_s = ma_s
+        self.result = self.result_ob()
+
+    def __repr__(self):
+        return str(self.result)
+
+    def result_ob(self):
+        return dict(
+            pair = self.pairname,
+            num_trades = self.df_trades.shape[0],
+            total_gain = int(self.df_trades['GAIN'].sum()),
+            mean_gain = int(self.df_trades['GAIN'].mean()),
+            min_gain = int(self.df_trades['GAIN'].min()),
+            max_gain = int(self.df_trades['GAIN'].max()),
+            ma_l = self.ma_l,
+            ma_s = self.ma_s
+        )
+
 BUY = 1
 SELL = -1
 NONE = 0
@@ -27,8 +51,7 @@ def get_trades(df_analysis, instrument):
     df_trades.fillna(0, inplace=True)
     df_trades['GAIN'] = df_trades['DIFF'] / instrument.pipLocation
     df_trades['GAIN'] = df_trades['GAIN'] * df_trades['TRADE']
-    total_gain = df_trades['GAIN'].sum()
-    return dict(total_gain=total_gain, df_trades=df_trades)
+    return df_trades
 
 def assess_pair(price_data, ma_l, ma_s, instrument):
     df_analysis = price_data.copy()
