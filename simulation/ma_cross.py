@@ -3,12 +3,13 @@ from infrastructure.instrument_collection import instrumentCollection as ic
 
 
 class MAResult:
-    def __init__(self, df_trades, pairname, ma_l,ma_s):
+    def __init__(self, df_trades, pairname, ma_l,ma_s, granularity):
         self.pairname = pairname
         self.df_trades = df_trades
         self.ma_l = ma_l
         self.ma_s = ma_s
         self.result = self.result_ob()
+        self.granularity = granularity
 
     def __repr__(self):
         return str(self.result)
@@ -22,7 +23,8 @@ class MAResult:
             min_gain = int(self.df_trades['GAIN'].min()),
             max_gain = int(self.df_trades['GAIN'].max()),
             ma_l = self.ma_l,
-            ma_s = self.ma_s
+            ma_s = self.ma_s,
+            granularity = self.granularity
         )
 
 BUY = 1
@@ -53,37 +55,47 @@ def get_trades(df_analysis, instrument):
     df_trades['GAIN'] = df_trades['GAIN'] * df_trades['TRADE']
     return df_trades
 
-def assess_pair(price_data, ma_l, ma_s, instrument):
+def assess_pair(price_data, ma_l, ma_s, instrument, granularity):
     df_analysis = price_data.copy()
     df_analysis['DELTA'] = df_analysis[ma_s] - df_analysis[ma_l]
     df_analysis['DELTA_PREV'] = df_analysis['DELTA'].shift(1)
     df_analysis['TRADE'] = df_analysis.apply(is_trade, axis=1)
-    return get_trades(df_analysis, instrument)
+    df_trades = get_trades(df_analysis, instrument)
+    return MAResult(
+        df_trades,
+        instrument.name,
+        ma_l,
+        ma_s
+    )
+
+def process_results(results_list):
+    rl = [x.result for x in results_list]
+    df = pd.DataFrame.from_dict(rl)
+    print(df) 
 
 def analyse_pair(instrument, granularity, ma_long, ma_short):
     ma_list = set(ma_long + ma_short)
     pair = instrument.name
     price_data = load_price_data(pair, granularity, ma_list)
-
+    results_list = []
     for ma_l in ma_long:
         for ma_s in ma_short:
             if ma_l <= ma_s:
                 continue
 
-            result = assess_pair(
+            ma_result = assess_pair(
                 price_data,
                 get_ma_col(ma_l),
                 get_ma_col(ma_s),
-                instrument
+                instrument,
+                granularity
             )
-
-            tg = result['total_gain']  # Total gain
-            nt = result['df_trades'].shape[0]  # Number of trades
-
-            print(f'{pair} {granularity} {ma_s}-{ma_l} nt:{nt} tg:{tg}')
+            print(ma_result)
+            results_list.append(ma_result)
+    process_results(results_list)
 
 def run_ma_sim(curr_list=["EUR", "USD"],
-               granularity=["H1"],
+               granularity=["H1", "H4"],
                ma_long=[20, 40, 80],
                ma_short=[10, 20]):
     ic.LoadInstruments("./data")
