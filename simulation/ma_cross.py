@@ -85,21 +85,25 @@ def append_df_to_file(df, filename):
     pass
 
 def get_fullname(filepath, filename):
-    pass
+    return f"{filepath}/{filename}.pkl"
 
-def process_macro(results_lists, filename):
-    pass
-
-def process_trades(results_lists, filename):
-    pass
-
-def process_results(results_list, filepath):
-    process_macro(results_list, get_fullname())
-    # Convert list of results to DataFrame for summary analysis
+def process_macro(results_list, filename):
     rl = [x.result for x in results_list]
     df = pd.DataFrame.from_dict(rl)
-    print(df)
-    print(results_list[0].df_trades.head(2))
+    append_df_to_file(df, filename)
+
+def process_trades(results_list, filename):
+    df = pd.concat([x.df_trades for x in results_list])
+    append_df_to_file(df, filename)
+
+def process_results(results_list, filepath):
+    process_macro(results_list, get_fullname(filepath, "ma_res"))
+    process_trades(results_list, get_fullname(filepath, "ma_trades"))
+    # Convert list of results to DataFrame for summary analysis
+    # rl = [x.result for x in results_list]
+    # df = pd.DataFrame.from_dict(rl)
+    # print(df)
+    # print(results_list[0].df_trades.head(2))
 
 def analyse_pair(instrument, granularity, ma_long, ma_short, filepath):
     ma_list = set(ma_long + ma_short)
