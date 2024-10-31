@@ -70,7 +70,7 @@ def create_excel(df_ma_res, df_ma_trades, granularity):
         df_ma_trades[df_ma_trades.granularity == granularity].copy(), 
         writer)
    
-    writer.save()
+    writer.close()
 
 if __name__ == "__main__":
 
