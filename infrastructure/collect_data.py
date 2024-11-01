@@ -97,13 +97,13 @@ def run_collection(ic: InstrumentCollection, api: OandaApi):
         for p2 in our_curr:
             pair = f"{p1}_{p2}"
             if pair in ic.instruments_dict.keys():
-                for granularity in ["M5", "H1", "H4"]:
+                for granularity in ["H1", "H4"]: # put in granullaarity here
                     print(pair, granularity)
                     collect_data(
                         pair,
                         granularity,
                         "2016-01-07T00:00:00Z",
-                        "2021-12-31T00:00:00Z",
+                        "2024-12-31T00:00:00Z",
                         "./data/",
                         api
                     )

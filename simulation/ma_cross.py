@@ -140,8 +140,8 @@ def analyse_pair(instrument, granularity, ma_long, ma_short, filepath):
     process_results(results_list, filepath)
 
 
-def run_ma_sim(curr_list=["USD,CAD", "JPY", "GBP", "NZD"],
-                granularity=["H1,D"],
+def run_ma_sim(curr_list=["AUD", "CAD", "JPY", "USD", "EUR", "GBP", "NZD"],
+                granularity=["H1,H4"],
                 ma_long=[20,40,150],
                 ma_short=[10,30],
                 filepath="./data"):
