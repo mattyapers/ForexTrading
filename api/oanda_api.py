@@ -96,3 +96,13 @@ class OandaApi:
             final_data.append(new_dict)
         df = pd.DataFrame.from_dict(final_data)
         return df
+
+
+
+
+
+
+
+
+
+

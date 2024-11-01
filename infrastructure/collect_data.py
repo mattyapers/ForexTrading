@@ -5,7 +5,7 @@ from dateutil import parser
 from infrastructure.instrument_collection import InstrumentCollection
 from api.oanda_api import OandaApi
 
-CANDLE_COUNT = 3000
+CANDLE_COUNT = 5000
 
 INCREMENTS = {
     'M5' : 5 * CANDLE_COUNT,
@@ -107,3 +107,28 @@ def run_collection(ic: InstrumentCollection, api: OandaApi):
                         "./data/",
                         api
                     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
